@@ -4,42 +4,42 @@ A programatically-combined vocabulary list for learning Korean via Python 3, out
 
 ## Original Sources
 
-국립국어원 - The National Institute of the Korean Language
+```국립국어원 - The National Institute of the Korean Language```
 * [한국어 학습용 어휘 목록.xls (2003)](https://www.korean.go.kr/front/etcData/etcDataView.do?mn_id=46&etc_seq=71)
 
-TOPIK 한국어능력시험 - Test of Proficiency in Korean
+```TOPIK 한국어능력시험 - Test of Proficiency in Korean```
 * [토픽 어휘 목록_공개 목록.xlsx (2015)](https://www.topik.go.kr/usr/cmm/subLocation.do?menuSeq=2110503&boardSeq=64217)
 
 ## Keys
 
-* GO - The National Institute of the Korean Language, due to the site being run by the Korean government.
-* en - English
-* ko - Korean
-* han - Hanja
-* &일 - Korean term dervied from 일본어 (Japanese language)
-* &프 - Korean term dervied from 프랑스어 (French language)
-* &독 - Korean term derived from 독일어 (German language)
-* &중 - Korean term derived from 중국어 (Chinese language)
-* &이 - Korean term dericed from 이탈리아어 (Italian language)
+* `GO` - The National Institute of the Korean Language, due to the site being run by the Korean government.
+* `en` - English
+* `ko` - Korean
+* `han` - Hanja
+* `&일` - Korean term dervied from 일본어 (Japanese language)
+* `&프` - Korean term dervied from 프랑스어 (French language)
+* `&독` - Korean term derived from 독일어 (German language)
+* `&중` - Korean term derived from 중국어 (Chinese language)
+* `&이` - Korean term dericed from 이탈리아어 (Italian language)
 
 ## Decisions
 
-### Headers
+### **`Headers`**
 
-GO headers:
+> **Original GO headers**
 * `순위` (ranking) - in terms of frequency
 * `단어` (word)	- Korean vocabulary word
 * `품사` (part of speech)
 * `풀이` (explanation) - hints
 * `등급` (level) - A, B, C (basic to advanced)
 
-TOPIK headers:
+> **Original TOPIK headers**
 * `수준` (level) - TOPIK has two examination levels. TOPIK I, marked as `초급` on the spreadsheet, for the basic level, and TOPIK II, marked as `중급` on the spread sheet, which can be more accurately described as "from intermediate and on" since this examination combins the intermediate and advanced levels.
 * `어휘` (vocabulary) - Korean vocabulary word
 * `길잡이말` (guide words) - hints
 * `품사` (part of speech)
 
-Combined headers
+> **Combined headers**
 * `frequency` - usage frequency rank
 * `korean` - Korean vocabulary word
 * `pos` - part of speech
@@ -48,21 +48,21 @@ Combined headers
 * `go_level` - chose to separate for future database purposes
 * `topik_level` - chose to separate for future database purposes
 
-### Format
- Convert to TSV prior to reading files
+### **`Handling Hanja, Korean, English in the Hanja Column`**
 
-### Hanja (traditional Chinese characters), Korean, English
+> **Type 1: `<ampersand><ko><en>`**
 
-Type 1: <ampersand><ko><en>\
-Example: `&일ramen`\
-Decision: Move from the `hanja` column to the `hints` column.
+*Example*: `&일ramen`\
+Decision: Move from the `hanja` column to the `hints` column. 
 
 | Hanja      | Hint |
 | ----------- | ----------- |
 |       | `&일ramen`       |
+|       |        |
 
 
-Type 2: <en><han> or <han><en>\
+> Type 2: `<en><han>` or `<han><en>`
+
 Examples: `golf場`, `市內bus`\
 Decision: The `en` porition doesn't provide any value. Replace the `en` portion with a `-`.
 
@@ -71,7 +71,8 @@ Decision: The `en` porition doesn't provide any value. Replace the `en` portion 
 | `-場`      |        |
 | `市內-`   |         |
 
-Type 3: <han><period><ko>
+> Type 3: `<han><period><ko>`
+
 Example: `間. 서울과 부산`, \
 Decision: Split at `. `. Move the `num` portion to the `hints` column.
 
@@ -79,7 +80,7 @@ Decision: Split at `. `. Move the `num` portion to the `hints` column.
 | ----------- | ----------- |
 | `間`      | `서울과 부산`       |
 
-Type 4: <han><period><num>
+> Type 4: <han><period><num>
 Example: `等. 1~`
 Decision: Split at `. `. Move the `num` portion to the `hints` column.
 
@@ -88,14 +89,15 @@ Decision: Split at `. `. Move the `num` portion to the `hints` column.
 | `等`      | `1~`       |
 
 
-### Part of Speech Conversion
+### **`Handling Part of Speech Conversion`**
 
 GO part of speech will be used as 'reference', unless TOPIK provides better language. TOPIK part of speech will be used if more descriptive. For example:
 
 - In GO, `일곱` part of speech is `수사`.
 - In TOPIK, `일곱`, part of speech is `수사/관형사/명사`, which is more preferred as it provides more option in future database purposes, and to recognize the different nuances in various usage cases.
 
-``` GO part of speech conversion
+> GO Part Of Speech
+```
 '감': '감탄사',
 '고': '고유 명사',
 '관': '관형사',
@@ -112,7 +114,8 @@ GO part of speech will be used as 'reference', unless TOPIK provides better lang
 
 Reasoning: `의존명사` I found to be more common than the spaced `의존명사`. It's confusing that GO has a page titled `의존명사` but writes `의존 명사` in the body. `줄어든 말` better describes the Korean words marked as `분석 불능`.
 
-``` TOPIK part of speeech conversion
+> TOPIK Part Of Speech
+```
 '감탄사': '감탄사',
 '관형사': '관형사',
 '관형사/수사': '관형사/수사',
@@ -143,9 +146,14 @@ Reasoning: `의존명사` I found to be more common than the spaced `의존명�
 ```
 Reasoning: With the exception of `줄어든 말`, I found that TOPIK uses spaces for 'or' rather than being consistent with the use of forward slashes. I've opted for forward slashes for easier string splits, and fore future database purposes.
 
-## Anomalies 
+### **`Handling Hint Conversions`**
 
-Issue #1: `金medal`\
+Coming soon
+
+### **`Handling Anomalies`** 
+
+> Issue #1: `金medal`
+
 The `金` in `金medal` from the GO vocabulary list is not recognized as hanja. `en` is returned when running `khe_ditect('金medal')`.
 
 ``` tests
@@ -157,10 +165,16 @@ false
 ```
 Resolution: Check for `金medal` and set go_hanja to `金-` during `re_arrange_go()`.
 
-Issue #2: `를 g다`
+> Issue #2: `를 g다`
 
 In the TOPIK vocabulary list, the guide words for `필기` are `를 g다`. 
 
 Resolution: Given the common use case for `필기` and that the `g` key corresponds with `ㅎ`. I will assume that intended guidewords are `를 하다`.
 
-Issue #3: The Difficult Ones
+> Issue #3: `The Difficult Ones`
+
+Coming Soon
+
+> Issue #3: `Special Cases`
+
+Coming Soon
