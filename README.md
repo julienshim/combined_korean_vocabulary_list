@@ -34,7 +34,7 @@ A programatically-combined vocabulary list for learning Korean via Python 3, out
 * `등급` (level) - A, B, C (basic to advanced)
 
 > **Original TOPIK headers**
-* `수준` (level) - TOPIK has two examination levels. TOPIK I, marked as `초급` on the spreadsheet, for the basic level, and TOPIK II, marked as `중급` on the spread sheet, which can be more accurately described as "from intermediate and on" since this examination combins the intermediate and advanced levels.
+* `수준` (level) - TOPIK has two examination levels. TOPIK I, marked as `초급` on the spreadsheet, for the basic level, and TOPIK II, marked as `중급` on the spreadsheet, which can be more accurately described as "from intermediate and on" since this examination combines the intermediate and advanced levels.
 * `어휘` (vocabulary) - Korean vocabulary word
 * `길잡이말` (guide words) - hints
 * `품사` (part of speech)
@@ -48,7 +48,7 @@ A programatically-combined vocabulary list for learning Korean via Python 3, out
 * `go_level` - chose to separate for future database purposes
 * `topik_level` - chose to separate for future database purposes
 
-### **`Handling Hanja, Korean, English in the Hanja Column`**
+### **`Handling Hanja, Korean, English in the GO Hanja Column`**
 
 > **Type 1: `<ampersand><ko><en>`**
 
@@ -96,7 +96,7 @@ Decision: Split at `. `. Move the `num` portion to the `hints` column.
 |                       |                                       |
 
 
-### **`Handling Part of Speech Conversion`**
+### **`Handling Part of Speech Conversions`**
 
 GO part of speech will be used as 'reference', unless TOPIK provides better language. TOPIK part of speech will be used if more descriptive. For example:
 
@@ -119,7 +119,7 @@ GO part of speech will be used as 'reference', unless TOPIK provides better lang
     '형': '형용사',
 ```
 
-Reasoning: `의존명사` I found to be more common than the spaced `의존명사`. It's confusing that GO has a page titled `의존명사` but writes `의존 명사` in the body. `줄어든 말` better describes the Korean words marked as `분석 불능`.
+Reasoning: `의존명사` I found to be more common than the spaced `의존 명사`. It's confusing that GO has a page titled `의존명사` but writes `의존 명사` in the body. `줄어든 말` better describes the Korean words marked as `분석 불능`.
 
 > TOPIK Part Of Speech
 ```
@@ -174,7 +174,32 @@ GO provides better hints in Korean than TOPIK due to their consistent use of til
 
 > Sifting System Strategy
 
-Sifting systems supplies various seieves with openings varying in microns. The middle sieve will be able to capture your  target particle size. The upper sieve will prevent particles much larger from coming through, and an optional lower sieve will let anything too fine will pass through to the bottom portion.
+Sifting systems supplies various sieves with openings varying in microns. The upper sieve will prevent particles too large from coming through, and an optional lower sieve will let anything too fine will pass through to the bottom portion. The middle sieve catches the ideal size and anything between the upper and lower sieve will be acceptable.
+
+Tackling such a large dataset requires a similar method. It starts with isolating, confirming, then hiding away data types we don't want to target, taking note of issues, until we can clearly see the data types we want to modify. We can then start isolating, confirming, then hiding away the datatypes we want to modify, taking note of issues. We continue the process until we're sure everything we want to modify is accounted for.
+
+> Step 1: Removing the Distractions from View
+
+**Examples**
+
+1. Empty Values
+
+| korean            | hint                                 |
+|-----------------------|---------------------------------------|
+| 가득히      |                         |
+|  |                         |
+
+
+2. Tildes (Hints at Correct Format)
+
+| korean            | hint                                 |
+|-----------------------|---------------------------------------|
+| 가방  | ~을 메다 |
+|  |                         |
+
+3. Values with apostrophes (')
+
+
 
 
 ### **`Issues`** 
@@ -183,7 +208,7 @@ Sifting systems supplies various seieves with openings varying in microns. The m
 
 
 
-> Issue: `Errors found`
+> Issue: Errors found
 
 | Correction            | Issue                                 |
 |-----------------------|---------------------------------------|
@@ -193,7 +218,7 @@ Sifting systems supplies various seieves with openings varying in microns. The m
 | '대적할 만함' -> '대적할 만한'  | Should be '-한'                        |
 |                       |                                       |
 
-> Issue: `Exceptions`
+> Issue: Exceptions
 
 | frequency | korean | pos | hanja | hint   | go_level | topik_level |
 |-----------|--------|-----|-------|--------|----------|-------------|
