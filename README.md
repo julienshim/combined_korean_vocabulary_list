@@ -61,7 +61,7 @@ Decision: Move from the `hanja` column to the `hints` column.
 |       |        |
 
 
-> Type 2: `<en><han>` or `<han><en>`
+> **Type 2: `<en><han>` or `<han><en>`**
 
 Examples: `golf場`, `市內bus`\
 Decision: The `en` porition doesn't provide any value. Replace the `en` portion with a `-`.
@@ -71,7 +71,7 @@ Decision: The `en` porition doesn't provide any value. Replace the `en` portion 
 | `-場`      |        |
 | `市內-`   |         |
 
-> Type 3: `<han><period><ko>`
+> **Type 3: `<han><period><ko>`**
 
 Example: `間. 서울과 부산`, \
 Decision: Split at `. `. Move the `num` portion to the `hints` column.
@@ -80,13 +80,20 @@ Decision: Split at `. `. Move the `num` portion to the `hints` column.
 | ----------- | ----------- |
 | `間`      | `서울과 부산`       |
 
-> Type 4: <han><period><num>
+> **Type 4: `<han><period><num>`**
 Example: `等. 1~`
 Decision: Split at `. `. Move the `num` portion to the `hints` column.
 
 | Hanja      | Hint |
 | ----------- | ----------- |
 | `等`      | `1~`       |
+
+> **Issue - False Detection**
+
+| Correction            | Issue                                 |
+|-----------------------|---------------------------------------|
+| '金medal' -> '金-'      | Detected as 'en' rather than 'han/en' |
+|                       |                                       |
 
 
 ### **`Handling Part of Speech Conversion`**
@@ -98,83 +105,116 @@ GO part of speech will be used as 'reference', unless TOPIK provides better lang
 
 > GO Part Of Speech
 ```
-'감': '감탄사',
-'고': '고유 명사',
-'관': '관형사',
-'대': '대명사',
-'동': '동사',
-'명': '명사',
-'보': '보조 용언',
-'부': '부사',
-'불': '줄어든 말', # changed from original '분석 불능'
-'수': '수사',
-'의': '의존명사', # changed from original '의존 명사'
-'형': '형용사',
+    '감': '감탄사',
+    '고': '고유 명사',
+    '관': '관형사',
+    '대': '대명사',
+    '동': '동사',
+    '명': '명사',
+    '보': '보조 용언',
+    '부': '부사',
+    '불': '줄어든 말', # changed from '분석 불능'
+    '수': '수사',
+    '의': '의존명사', # changed from '의존 명사'
+    '형': '형용사',
 ```
 
 Reasoning: `의존명사` I found to be more common than the spaced `의존명사`. It's confusing that GO has a page titled `의존명사` but writes `의존 명사` in the body. `줄어든 말` better describes the Korean words marked as `분석 불능`.
 
 > TOPIK Part Of Speech
 ```
-'감탄사': '감탄사',
-'관형사': '관형사',
-'관형사/수사': '관형사/수사',
-'관형사·명사': '관형사/명사',
-'대명사': '대명사',
-'대명사/관형사': '대명사/관형사',
-'동사': '동사',
-'동사/형용사': '동사/형용사',
-'명사': '명사',
-'명사/관형사': '명사/관형사',
-'명사/대명사': '명사/대명사',
-'명사/부사': '명사/부사',
-'명사/의존명사': '명사/의존명사',
-'부사': '부사',
-'부사/감탄사': '부사/감탄사',
-'부사/관형사·명사': '부사/관형사/명사',
-'부사/명사': '부사/명사',
-'수사': '수사',
-'수사/명사': '수사/명사',
-'수사·관형사': '수사/관형사',
-'수사·관형사/명사': '수사/관형사/명사',
-'의존명사': '의존명사',
-'의존명사/명사': '의존명사/명사',
-'접사': '접사',
-'줄어든 말': '줄어든 말',
-'형용사': '형용사',
-'형용사/동사': '형용사/동사',
+    '감탄사': '감탄사',
+    '관형사': '관형사',
+    '관형사/수사': '관형사/수사',
+    '관형사·명사': '관형사/명사',
+    '관형사/대명사': '관형사/대명사',
+    '대명사': '대명사',
+    '대명사/부사': '대명사/부사',
+    '대명사/관형사': '대명사/관형사',
+    '대명사/명사': '대명사/명사',
+    '대명사/감탄사': '대명사/감탄사',
+    '동사': '동사',
+    '동사/형용사': '동사/형용사',
+    '명사': '명사',
+    '명사/관형사': '명사/관형사',
+    '명사/대명사': '명사/대명사',
+    '명사/부사': '명사/부사',
+    '명사/의존명사': '명사/의존명사',
+    '명사/감탄사': '명사/감탄사',
+    '부사': '부사',
+    '부사/감탄사': '부사/감탄사',
+    '부사/관형사·명사': '부사/관형사/명사',
+    '부사/명사': '부사/명사',
+    '수사': '수사',
+    '수사/명사': '수사/명사',
+    '수사·관형사': '수사/관형사',
+    '수사/관형사': '수사/관형사',
+    '수사·관형사/명사': '수사/관형사/명사',
+    '수사·관형사/명사/부사': '수사/관형사/명사/부사',
+    '의존명사': '의존명사',
+    '의존명사/명사': '의존명사/명사',
+    '접사': '접사',
+    '줄어든 말': '줄어든 말',
+    '형용사': '형용사',
+    '형용사/동사': '형용사/동사',
+    '조사': '조사',
 ```
 Reasoning: With the exception of `줄어든 말`, I found that TOPIK uses spaces for 'or' rather than being consistent with the use of forward slashes. I've opted for forward slashes for easier string splits, and fore future database purposes.
 
 ### **`Handling Hint Conversions`**
 
-Coming soon
+GO provides better hints in Korean than TOPIK due to their consistent use of tildes (~), indicating where a Korean word should be placed in the hints, seen below. Have tildes in hint where appropriate may be benefitial to Korean learners not confident in Korean grammar and sentence structure patterns.
 
-### **`Handling Anomalies`** 
+| GO    | TOPIK   |
+|-------|---------|
+| ~ 차다  | 단지 ~만으로 |
+| 색깔이 ~ | 를 조성하다  |
+| 바위가 ~ | 이 심하다   |
+|       |         |
 
-> Issue #1: `金medal`
+> Sifting System Strategy
 
-The `金` in `金medal` from the GO vocabulary list is not recognized as hanja. `en` is returned when running `khe_ditect('金medal')`.
+Sifting systems supplies various seieves with openings varying in microns. The middle sieve will be able to capture your  target particle size. The upper sieve will prevent particles much larger from coming through, and an optional lower sieve will let anything too fine will pass through to the bottom portion.
 
-``` tests
-'金' === '金'
-false
 
-`金medal` == `金medal`
-false
-```
-Resolution: Check for `金medal` and set go_hanja to `金-` during `re_arrange_go()`.
+### **`Issues`** 
 
-> Issue #2: `를 g다`
 
-In the TOPIK vocabulary list, the guide words for `필기` are `를 g다`. 
 
-Resolution: Given the common use case for `필기` and that the `g` key corresponds with `ㅎ`. I will assume that intended guidewords are `를 하다`.
 
-> Issue #3: `The Difficult Ones`
 
-Coming Soon
+> Issue: `Errors found`
 
-> Issue #3: `Special Cases`
+| Correction            | Issue                                 |
+|-----------------------|---------------------------------------|
+| '를 g다' -> '를 하다'      | Should be '하다'                        |
+| '에서 연습핟' -> '에서 연습하다' | Should be '하다'                        |
+| '경찰 수가' -> '경찰 수사'    | Should be '-사'                        |
+| '대적할 만함' -> '대적할 만한'  | Should be '-한'                        |
+|                       |                                       |
 
-Coming Soon
+> Issue: `Exceptions`
+
+| frequency | korean | pos | hanja | hint   | go_level | topik_level |
+|-----------|--------|-----|-------|--------|----------|-------------|
+| 5992      | 팬01    | 명사  |       | 애호가    | B        |             |
+| 214       | 동안01   | 명사  |       | 시간의 길이 | A        |             |
+| 3117      | 새01    | 명사  |       | 사이     | C        |             |
+| 315       | 애02    | 명사  |       | 아이     | B        |             |
+|           | 요새01   | 명사  |       | 요 사이   |          | 중급          |
+|           |        |     |       |        |          |             |
+
+> Issue: `The Leftovers`
+
+| frequency | korean | pos | hanja | hint | go_level | topik_level |
+|-----------|--------|-----|-------|------|----------|-------------|
+|           | 적용     | 명사  |       | 받다   |          | 중급          |
+|           | 분위기    | 명사  |       | 어색한  |          | 초급          |
+|           | 아동02   | 명사  |       | 의 성장 |          | 중급          |
+|           | 아랫사람   | 명사  |       | 의 도리 |          | 중급          |
+|           | 우연02   | 명사  |       | 의 일치 |          | 중급          |
+|           | 재생01   | 명사  |       | 의 기회 |          | 중급          |
+|           | 차례01   | 명사  |       | 지키다  |          | 초급          |
+|           | 차례01   | 동사  |       | 오래   |          | 초급          |
+| 4881      | 달다07   | 형용사 |       | 맛    | A        |             |
+|           |        |     |       |      |          |             |
