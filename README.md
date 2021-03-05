@@ -424,3 +424,8 @@ Through the filtering the data, the following errors were found and were manuall
 | '대적할 만함' -> '대적할 만한'  | Should be '-한'                        |
 |                       |                                       |
 
+### Final steps
+
+1. Lines of data with a frequency number inherit duplicates without one. Again TOPIK part of speech take over if more descriptive. If GO already has a hint, GO hints take priority.
+
+2. Delete duplicates based on Korean and part of speech.
