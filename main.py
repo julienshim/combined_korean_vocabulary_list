@@ -5,7 +5,7 @@ from imports.funcs_loader import load_body
 from imports.funcs_fragmentizers_sanitizers import go_fragmentize_sanitize, topik_fragmentize_sanitize
 from imports.funcs_write import generate_tsv
 from imports.funcs_converters import line_arr_to_line_string
-from imports.funcs_shift_up_values import shift_up_values
+from imports.funcs_shift_values import shift_values
 from imports.funcs_remove_duplicates import remove_duplciates
 from imports.lists import combined_headers
 
@@ -25,7 +25,7 @@ combined_fs_body = sorted(go_fs_body + topik_fs_body, key=lambda line: (sub('-',
 regenerated_c_fs_body = regenerate(combined_fs_body)
 
 # allow lines with frequencies to inheret values from non frequency lines
-shifted_r_c_fs_body = shift_up_values(regenerated_c_fs_body)
+shifted_r_c_fs_body = shift_values(regenerated_c_fs_body)
 
 # remove duplicates
 unique_s_r_c_fs_body = remove_duplciates(shifted_r_c_fs_body)
