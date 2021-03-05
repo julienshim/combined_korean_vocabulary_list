@@ -426,7 +426,7 @@ Through the filtering the data, the following errors were found and were manuall
 | '대적할 만함' -> '대적할 만한'  | Should be '-한'                        |
 |                       |                                       |
 
-### Final steps
+### **`Final steps`**
 
 1. When the vocabularity lists were combined, they were immediately sorted by Korean and part of speech. Knowing GO part of speech is shorter than TOPIK, they will be topmost. GO data lines also have frequency numbers and we can use frequency numbers to compare the duplicates underneath and have them inherit missing values. Again TOPIK part of speech take over if more descriptive. However, if GO already has a hint, GO hints take priority.
 
