@@ -123,6 +123,7 @@ Decision: The `en` porition doesn't provide any value. Replace the `en` portion 
 | ----------- | ----------- |
 | `-場`      |        |
 | `市內-`   |         |
+|       |        |
 
 > **Type 3: `<han><period><ko>`**
 
@@ -132,6 +133,7 @@ Decision: Split at `. `. Move the `num` portion to the `hints` column.
 | Hanja      | Hint |
 | ----------- | ----------- |
 | `間`      | `서울과 부산`       |
+|       |        |
 
 > **Type 4: `<han><period><num>`**
 
@@ -141,6 +143,7 @@ Decision: Split at `. `. Move the `num` portion to the `hints` column.
 | Hanja      | Hint |
 | ----------- | ----------- |
 | `等`      | `1~`       |
+|       |        |
 
 > **Issue - false detection**
 
@@ -394,10 +397,11 @@ The best way to find useful leftover data is to inspect the 170 or so lines of d
 |           | 아랫사람   | 명사  |       | 의 도리 |          | 중급          |
 |           | 우연02   | 명사  |       | 의 일치 |          | 중급          |
 |           | 재생01   | 명사  |       | 의 기회 |          | 중급          |
+|           |        |     |       |      |          |             |
 
 **Leftover Type 2: Unclassifiable**
 
-Due to their uniqueness, the following 5 of the 112 remaining lines of data are not distinct enough to draw
+Due to their uniqueness, the following 5 of the 170 remaining lines of data are not distinct enough to draw
 
 | frequency | korean | pos | hanja | hint | go_level | topik_level |
 |-----------|--------|-----|-------|------|----------|-------------|
