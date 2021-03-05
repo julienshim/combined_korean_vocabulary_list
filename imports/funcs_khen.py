@@ -32,12 +32,12 @@ def detect_khen(text):
 def transfer_khen(text, language):
     transfer = ''
     new_text = text
-    if language in ['ko', 'en', 'ko/en', 'ko/num']:
+    if language in ('ko', 'en', 'ko/en', 'ko/num'):
         transfer = new_text
         new_text = ''
     elif language == 'han/en':
         new_text = split_en_han(new_text)
-    elif language in ['ko/han', 'ko/han/num']:
+    elif language in ('ko/han', 'ko/han/num'):
         [han, ko] = split_han_ko(new_text)
         transfer = ko
         new_text = han

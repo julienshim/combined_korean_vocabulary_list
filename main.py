@@ -1,4 +1,5 @@
 import os
+import time
 from re import sub
 from imports.funcs_regenerate import regenerate
 from imports.funcs_loader import load_body
@@ -8,6 +9,8 @@ from imports.funcs_converters import line_arr_to_line_string
 from imports.funcs_shift_values import shift_values
 from imports.funcs_remove_duplicates import remove_duplciates
 from imports.lists import combined_headers
+
+start_time = time.time()
 
 # load body from csv
 go_body = load_body('./input/koreagokr/koreangokr.tsv')
@@ -36,3 +39,5 @@ output_filename = 'combined_topik_go.tsv'
 header_string = line_arr_to_line_string(combined_headers)
 
 generate_tsv(header_string, unique_s_r_c_fs_body, output_folder, output_filename)
+
+print("--- %s seconds ---" % (time.time() - start_time))
