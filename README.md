@@ -2,8 +2,6 @@
 
 A programmatically-combined vocabulary list for learning Korean via Python 3, outputting in TSV (tab-serparated values) format for future database seeding purposes.
 
-A programm
-
 ## Original Sources
 
 `국립국어원 - The National Institute of the Korean Language`
