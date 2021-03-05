@@ -411,7 +411,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 7445	고등학생	명사	高等學生	~이 되다	A	초급
 	고래01	명사		~가 헤엄치다		중급
 	고려	고유 명사	高麗		C	
-	고려01	명사		고려 사항		중급
 1490	고려하다01	동사	考慮-		B	
 1496	고르다01	동사		뽑다	B	초급
 5175	고르다03	형용사		차이가 없다	B	
@@ -577,7 +576,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 316	광고02	명사	廣告	신문 광고	B	초급
 3392	광장02	명사	廣場		C	
 	광주	고유 명사	光州		B	
-	광주01	명사		지명		초급
 813	괜찮다	형용사		성격이 ~	A	초급
 2071	괜히	부사		괜히 이야기하다	B	중급
 3910	괴로움	명사		~을 당하다	C	중급
@@ -1144,7 +1142,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 2310	남부01	명사	南部	남부 지방	C	중급
 5876	남북	명사	南北	~을 잇다	C	중급
 	남산	고유 명사	南山		B	
-	남산02	명사		지명		초급
 742	남성01	명사	男性	여성	B	초급
 154	남자02	명사	男子	여자	A	초급
 1598	남쪽	명사	南-	북쪽	A	초급
@@ -1517,7 +1514,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 4124	대개03	명사	大槪	대개의 경우	C	중급
 1709	대개03	부사	大槪	대개의 경우	C	중급
 	대구	고유 명사	大邱		B	
-	대구03	명사		~에 살다		초급
 1878	대규모	명사	大規模	대규모 행사	C	중급
 2174	대기07	명사	大氣	~가 오염되다	C	중급
 	대기16	명사		~를 시키다		중급
@@ -1555,7 +1551,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 2407	대응하다	동사	對應-		C	
 8043	대입01	명사	大入		C	
 	대전	고유 명사	大田		B	
-	대전01	명사		지명		초급
 5339	대접05	명사	待接	손님 대접	C	중급
 6387	대접하다	동사	待接-		C	
 	대조10	명사		지문 대조		중급
@@ -2379,7 +2374,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 	뮤지컬	명사		~을 보다		중급
 1025	미14	명사	美		C	
 	미국	고유 명사	美國		A	
-	미국04	명사		나라		초급
 	미국인	명사		~을 만나다		중급
 5753	미끄러지다	동사		눈길에 ~	C	초급
 13330	미끄럽다	형용사		길이 ~	C	중급
@@ -2848,7 +2842,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 291	부분01	명사	部分	~으로 나누다	B	초급
 3753	부분적	명사	部分的	부분적 차이	C	중급
 	부산	고유 명사	釜山		A	
-	부산02	명사		지명		초급
 5356	부상05	명사	負傷	~을 당하다	C	중급
 4207	부서12	명사	部署	~를 옮기다	C	중급
 3930	부서지다	동사		문이 ~	C	중급
@@ -3345,7 +3338,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 6082	서양인	명사	西洋人	동양인	C	중급
 	서운하다	형용사		마음이 ~		중급
 	서울	고유 명사			A	
-	서울01	명사		도시		초급
 	서울역	고유 명사	-驛		A	
 4805	서적02	명사	書籍	~을 읽다	C	중급
 5229	서점03	명사	書店	책방	A	초급
@@ -4484,7 +4476,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 6844	영03	부사		~ 딴판이다	C	중급
 	영14	명사		숫자		초급
 	영국	고유 명사	英國		A	
-	영국01	명사		나라		초급
 7853	영남	명사	嶺南		C	
 	영리하다01	형용사		머리가 ~		중급
 2578	영상01	명사	映像	영상에 담다	C	중급
@@ -4776,7 +4767,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 1559	울리다01	동사		종이 ~	B	중급
 5793	울리다02	동사		아기를 ~	C	중급
 	울산	고유 명사	蔚山		B	
-	울산01	명사		도시		초급
 3197	울음	명사		~을 그치다	B	초급
 4542	울음소리	명사		~가 나다	C	중급
 491	움직이다	동사		몸을 ~	B	초급
@@ -4850,7 +4840,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 	유도08	명사		대화 유도		중급
 	유람선	명사		~을 타다		중급
 	유럽	고유 명사		Europe	B	
-	유럽02	명사		~에 가다		중급
 	유료01	명사		무료		중급
 	유리05	명사		불리		중급
 3247	유리10	명사	琉璃	~가 깨지다	B	초급
@@ -5125,7 +5114,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 1594	인제01	부사			B	
 5801	인종01	명사	人種		C	
 	인천	고유 명사	仁川		A	
-	인천02	명사		지명		초급
 	인천공항	고유 명사	仁川空港		B	
 3200	인체	명사	人體	~를 해부하다	C	중급
 2452	인터넷	명사		internet	B	초급
@@ -5149,7 +5137,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 3493	일반인	명사	一般人	일반인 대상	C	중급
 1324	일반적	명사	一般的	일반적 생각	B	중급
 	일본	고유 명사	日本		A	
-	일본02	명사		나라		초급
 12030	일본어	명사	日本語	~로 말하다	A	중급
 	일본인	명사		~을 만나다		중급
 398	일부02	명사	一部	일부 지역	B	초급
@@ -5691,7 +5678,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 2221	제작02	명사	製作	음반 제작	C	중급
 3249	제작하다02	동사	製作-		C	
 	제주도	고유 명사	濟州島		A	
-	제주도01	명사		지명		초급
 7366	제출02	명사	提出	보고서 제출	C	중급
 2976	제출하다02	동사	提出-		B	
 516	제품02	명사	製品	가죽 제품	B	중급
@@ -5862,7 +5848,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 	중고차	명사		~를 사다		중급
 	중고품	명사		~을 팔다		중급
 	중국	고유 명사	中國		A	
-	중국01	명사		나라		초급
 19454	중국어	명사	中國語	~로 말하다	A	중급
 	중국인	명사		~을 만나다		중급
 11408	중국집	명사	中國-	~에 주문하다	B	초급
@@ -6783,7 +6768,6 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 3380	풍습01	명사	風習	~을 지키다	C	중급
 	프라이팬	명사		~에 볶다		초급
 	프랑스	고유 명사		France	A	
-	프랑스02	명사		나라		초급
 1769	프로03	명사		professional	B	중급
 2786	프로04	명사		program	B	
 356	프로그램	명사		program	B	초급
@@ -6878,13 +6862,11 @@ frequency	korean	pos	hanja	hint	go_level	topik_level
 3381	한가운데	명사		~에 놓다	C	중급
 6721	한가하다02	형용사	閑暇-	마음이 ~	C	초급
 	한강	고유 명사	漢江		A	
-	한강01	명사		지명		초급
 10329	한겨울	명사		~이 지나가다	C	중급
 6160	한결	부사		한결 쉽다	C	중급
 1003	한계	명사	限界	~를 넘다	C	중급
 5432	한구석	명사			C	
 	한국	고유 명사	韓國		A	
-	한국05	명사		나라		초급
 6930	한국말	명사	韓國-	~로 말하다	A	중급
 2642	한국어	명사	韓國語	~를 말하다	A	중급
 	한국인	명사		~으로 태어나다		중급

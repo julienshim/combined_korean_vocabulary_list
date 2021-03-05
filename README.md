@@ -32,7 +32,7 @@ Programatically combining the National Institute of the Korean Language and TOPI
 
 ### **`Converting GO and TOPIK part of speech before creating Combined vocabulary list`**
 
-GO part of speech will be used as 'reference'. TOPIK part of speech will be used if more descriptive, which is prefered for future database purposes to recognize the different nuances in vocabulary. See the example below:
+GO part of speech will be used as 'reference' since GO lists same Korean words with different part of speech. See the example below:
 
 | Korean    | GO hint   | TOPIK hint   |
 |-------|---------|---------|
@@ -428,6 +428,16 @@ Through the filtering the data, the following errors were found and were manuall
 
 ### **`Final steps`**
 
-1. When the vocabularity lists were combined, they were immediately sorted by Korean and part of speech. Knowing GO part of speech is shorter than TOPIK, they will be topmost. GO data lines also have frequency numbers and we can use frequency numbers to compare the duplicates underneath and have them inherit missing values. Again TOPIK part of speech take over if more descriptive. However, if GO already has a hint, GO hints take priority.
+Value shifting and deleting values should be done with lines of data with frequency value and hanja as reference as we want to protect these lines of data. I would recommend delete lines of data if one cannot confirm 1:1 match are we're not confirming meaning. The except are GO Korean words with a `고유 명사` part of speech, see below.
 
-2. Delete duplicates based on Korean, part of speech, and hints.
+> **`Value shifting`**
+
+Look for lines with a freqency value, look above and below to see if Korean value is exact, and pos is similar. Shift missing values to the line with frequency value.
+
+> **`Deleting duplicats`**
+
+Lines with freqency values should be protected. Like value shifting, one must look above and below to see if Korean value is exact, and pos is similar.
+
+> **`고유 명사`**
+
+A type of GO Korean word that does not not possess a frequency number are of the '고유 명사' (proper noun) part of speech type. The TOPIK equivalent has a number added to the end of the Korean word and is listed as `명사` (noun). The TOPIK equivalent is safe to delete despite not being 1:1 Korean value match since we're dealing with proper nouns.
