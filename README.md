@@ -1,6 +1,6 @@
-# Vocabulary List for Korean Learning
+# Korean Vocabulary Database Seed
 
-A programmatically-combined vocabulary list for learning Korean via Python 3, outputting in TSV (tab-serparated values) format for future database seeding purposes.
+Programatically combining the National Institute of the Korean Language and TOPIK vocabulary list for future database seeding via Python 3, outputting to TSV.
 
 ## Original Sources
 
@@ -426,7 +426,7 @@ Through the filtering the data, the following errors were found and were manuall
 | '대적할 만함' -> '대적할 만한'  | Should be '-한'                        |
 |                       |                                       |
 
-### Final steps
+### **`Final steps`**
 
 1. When the vocabularity lists were combined, they were immediately sorted by Korean and part of speech. Knowing GO part of speech is shorter than TOPIK, they will be topmost. GO data lines also have frequency numbers and we can use frequency numbers to compare the duplicates underneath and have them inherit missing values. Again TOPIK part of speech take over if more descriptive. However, if GO already has a hint, GO hints take priority.
 
