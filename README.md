@@ -1,6 +1,6 @@
 # Vocabulary List for Korean Learning
 
-A programmatically-combined vocabulary list for learning Korean via Python 3, outputting in TSV (tab-serparated values) format for future database purposes.
+A programmatically-combined vocabulary list for learning Korean via Python 3, outputting in TSV (tab-serparated values) format for future database seeding purposes.
 
 A programm
 
