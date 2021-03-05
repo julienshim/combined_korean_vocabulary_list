@@ -1,4 +1,4 @@
-# Combined Korean Vocabulary List for Korean Learning
+# Korean Vocabulary Database Seed
 
 Programatically combining the National Institute of the Korean Language and TOPIK vocabulary list for future database seeding via Python 3, outputting to TSV.
 
