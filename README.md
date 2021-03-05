@@ -12,6 +12,10 @@ A programm
 `TOPIK 한국어능력시험 - Test of Proficiency in Korean`
 * [토픽 어휘 목록_공개 목록.xlsx (2015)](https://www.topik.go.kr/usr/cmm/subLocation.do?menuSeq=2110503&boardSeq=64217)
 
+## Output File
+
+[Combined TOPIK GO Vocabulary list (.tsv)](https://github.com/julienshim/combined_korean_vocabulary_list/blob/master/output/combined_topik_go.tsv)
+
 ## Keys
 
 * `GO` - The National Institute of the Korean Language (go.kr)
