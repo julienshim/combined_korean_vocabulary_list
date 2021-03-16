@@ -2,6 +2,7 @@ from imports.dicts_conversions import pos_conversions, anomalies_conversions
 from imports.lists import khen_targets
 from imports.funcs_khen import detect_khen, transfer_khen
 from imports.funcs_converters import line_string_to_line_array
+from re import sub
 
 spacer = ''
 
@@ -28,3 +29,8 @@ def topik_fragmentize_sanitize(line):
     if topik_hint in anomalies_conversions:
         topik_hint = anomalies_conversions[topik_hint]
     return [topik_frequency, topik_korean, topik_pos, topik_hanja, topik_hint, spacer, topik_level]
+
+# experimental
+def cheese_fragmentize_sanitize(line):
+    [cheese_korean, cheese_number, cheese_type, cheese_pos, cheese_origin, cheese_pronunciation, cheese_level, cheese_hint, cheese_eng_simp, cheese_eng_complex] = line_string_to_line_array(line)
+    return [cheese_korean, cheese_number, cheese_type, cheese_pos, cheese_origin, cheese_pronunciation, cheese_level, cheese_hint, cheese_eng_simp, cheese_eng_complex]
