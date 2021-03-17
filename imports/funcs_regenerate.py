@@ -56,7 +56,7 @@ def regenerate_2(candidate_arr, ref_arr):
         [go_frequency, go_korean, go_pos, go_hanja, go_hint, go_level, go_english] = c_data
         for r_data in ref_arr:
             [cheese_korean, cheese_number, cheese_type, cheese_pos, cheese_origin, cheese_pronunciation, cheese_level, cheese_hint, cheese_eng_simp, cheese_eng_complex] = r_data
-            if ''.join(findall("[\uac00-\ud7a3]", go_korean)) in cheese_korean and ''.join(findall("[\u4e00-\u9FFF]", go_hanja)) in cheese_origin and go_pos in cheese_pos:
+            if ''.join(findall("[\uac00-\ud7a3]", go_korean)) == ''.join(findall("[\uac00-\ud7a3]", cheese_korean)) and ''.join(findall("[\u4e00-\u9FFF]", go_hanja)) in cheese_origin and go_pos in cheese_pos:
                 go_english = (cheese_eng_simp if go_english == '' else f"{go_english}; {cheese_eng_simp}")
                 new_arr[index] = [go_frequency, go_korean, go_pos, go_hanja, go_hint, go_level, go_english]
     return new_arr
