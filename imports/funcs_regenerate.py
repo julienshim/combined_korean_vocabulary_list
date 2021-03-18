@@ -53,10 +53,12 @@ def regenerate(arr):
 def regenerate_2(candidate_arr, ref_arr):
     new_arr = candidate_arr
     for index, c_data in enumerate(new_arr):
+        if index % 100 == 0:
+            print(f"{index} out of {len(new_arr)}")
         [go_frequency, go_korean, go_pos, go_hanja, go_hint, go_level, go_english] = c_data
-        for r_data in ref_arr:
+        for index_r, r_data in enumerate(ref_arr):
             [cheese_korean, cheese_number, cheese_type, cheese_pos, cheese_origin, cheese_pronunciation, cheese_level, cheese_hint, cheese_eng_simp, cheese_eng_complex] = r_data
-            if ''.join(findall("[\uac00-\ud7a3]", go_korean)) == ''.join(findall("[\uac00-\ud7a3]", cheese_korean)) and ''.join(findall("[\u4e00-\u9FFF]", go_hanja)) in cheese_origin and go_pos in cheese_pos:
-                go_english = (cheese_eng_simp if go_english == '' else f"{go_english}; {cheese_eng_simp}")
+            if ''.join(findall("[\uac00-\ud7a3]", go_korean)) == ''.join(findall("[\uac00-\ud7a3]", cheese_korean)) and ''.join(findall("[\u4e00-\u9FFF]", go_hanja)) == ''.join(findall("[\u4e00-\u9FFF]", cheese_origin)) and go_pos in cheese_pos:
+                go_english = (cheese_eng_simp if go_english == '' and cheese_eng_simp not in go_english else go_english)
                 new_arr[index] = [go_frequency, go_korean, go_pos, go_hanja, go_hint, go_level, go_english]
     return new_arr
