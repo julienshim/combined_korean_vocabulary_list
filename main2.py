@@ -2,6 +2,7 @@
 
 import os
 import time
+from re import sub
 from imports.funcs_regenerate import regenerate_2
 from imports.funcs_loader import load_body
 from imports.funcs_fragmentizers_sanitizers import go_fragmentize_sanitize, cheese_fragmentize_sanitize
@@ -23,11 +24,13 @@ cheese_fs_body = list(map(cheese_fragmentize_sanitize, cheese_body))
 # compare go and cheese and update english
 regenerated_c_fs_body = regenerate_2(go_fs_body, cheese_fs_body)
 
+regenerated_cs_fs_body_sorted = sorted(regenerated_c_fs_body, key=lambda line: (sub('-','',line[0]), line[1], line[3]))
+
 # # create test.csv, create output folder in current working director if one does not exist
 output_folder = 'output'
 output_filename = 'test.tsv'
 header_string = line_arr_to_line_string(combined_headers)
 
-generate_tsv(header_string, regenerated_c_fs_body, output_folder, output_filename)
+generate_tsv(header_string, regenerated_cs_fs_body_sorted, output_folder, output_filename)
 
 print("--- %s seconds ---" % (time.time() - start_time))
