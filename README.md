@@ -1,5 +1,8 @@
 # Korean Vocabulary Database Seed
 
+
+## UPDATE 2/28/2025 - THIS REPOSITORY WILL BE REVISITED SOON
+
 Programatically combining the National Institute of the Korean Language and TOPIK vocabulary list for future database seeding via Python 3, outputting to TSV.
 
 ## Original Sources
