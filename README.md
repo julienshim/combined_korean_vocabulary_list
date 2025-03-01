@@ -137,9 +137,9 @@ Additionally, I noticed that NIKL provides more effective hints for Korean vocab
 
 | NIKL explanation    | TOPIK explanation   | TOPIK explanation   |
 |-------|---------|---------|
-| ~ 차다  | 단지 ~만으로 | ~ 차다; 단지 ~만으로 |
-| 색깔이 ~ | 를 조성하다  | 색깔이 ~; 를 조성하다 |
-| 바위가 ~ | 이 심하다   | 바위가 ~; 이 심하다 |
+| game  | 컴퓨터 게임 | game; 컴퓨터 게임 |
+| ~를 돌리다 |  를 들다  | ~를 돌리다; 를 들다 |
+| bus | 를 타다   | bus; 를 타다 |
 
 ### **`Determining Combined headers`**
 

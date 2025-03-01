@@ -21,6 +21,18 @@ class MergeManager:
     def get_entries(self):
         return self.entries
 
+    def _compare_and_return_longest(self, entries):
+        if not entries:
+            return []
+
+        longest = max(entries, key=len)
+
+        for value in entries:
+            if value != longest and value in longest:
+                return [longest]
+
+        return entries  # Return original list if no match found
+
     def _merge_entry_values(self, entries):
         new_entry = {}
 
@@ -44,6 +56,13 @@ class MergeManager:
                 [nikl["explanation"] or None, topik["explanation"] or None],
             )
         )
+
+        # Combine 1:1
+        explanation_filtered = list(set(explanation_filtered))
+
+        # Return Long if Short in Longest
+        explanation_filtered = self._compare_and_return_longest(explanation_filtered)
+
         new_entry["explanation"] = (
             f'{"; " if len(explanation_filtered) > 1 else ""}'.join(
                 explanation_filtered
