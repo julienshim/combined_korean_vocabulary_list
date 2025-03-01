@@ -1,9 +1,6 @@
-# Korean Vocabulary Database Seed
+# Korean Vocabulary Database Seed (Version 2025.03.01)
 
-
-## UPDATE 2/28/2025 - THIS REPOSITORY WILL BE REVISITED SOON
-
-Programatically combining the National Institute of the Korean Language and TOPIK vocabulary list for future database seeding via Python 3, outputting to TSV.
+Using Python 3 to programmatically combine vocabulary lists from the National Institute of the Korean Language and TOPIK, outputting to TSV for future database seeding.
 
 ## Original Sources
 
@@ -13,15 +10,16 @@ Programatically combining the National Institute of the Korean Language and TOPI
 `TOPIK 한국어능력시험 - Test of Proficiency in Korean`
 * [토픽 어휘 목록_공개 목록.xlsx (2015)](https://www.topik.go.kr/usr/cmm/subLocation.do?menuSeq=2110503&boardSeq=64217)
 
+
 ## Output File
 
-[Combined TOPIK GO Vocabulary list (.tsv)](https://github.com/julienshim/combined_korean_vocabulary_list/blob/master/output/combined_topik_go.tsv)
+[Combined NIKL/TOPIK Vocabulary List (.tsv)](https://github.com/julienshim/combined_korean_vocabulary_list/blob/master/results.tsv)
 
 ## Keys
 
-* `GO` - The National Institute of the Korean Language (go.kr)
+* `NIKL` - The National Institute of the Korean Language
 * `TOPIK` - Test of Proficiency in Korean
-* `Combined` - GO and TOPIK vocabulary lists combined
+* `Combined` - NIKL and TOPIK vocabulary lists combined
 * `en` - English
 * `ko` - Korean
 * `han` - Hanja
@@ -33,18 +31,20 @@ Programatically combining the National Institute of the Korean Language and TOPI
 
 ## Decisions
 
-### **`Converting GO and TOPIK part of speech before creating Combined vocabulary list`**
+### **`Converting NIKL and TOPIK part of speech before creating Combined vocabulary list`**
 
-GO part of speech will be used as 'reference' since GO lists same Korean words with different part of speech. See the example below:
+It's worth noting that TOPIK often provides more detailed part of speech information for Korean words compared to NIKL. For instance, while NIKL might list a single part of speech for a word, TOPIK may indicate multiple grammatical functions. An example of this is the word '일곱':
 
-| Korean    | GO hint   | TOPIK hint   |
+| Korean    | NIKL part_of_speech   | TOPIK part_of_speech   |
 |-------|---------|---------|
 | 일곱  | 수사 | 수사/관형사/명사 | 
 |   |  |  | 
 
-> GO Part Of Speech
+As shown, TOPIK identifies '일곱' as potentially functioning as a numeral (수사), determiner (관형사), or noun (명사), whereas NIKL categorizes it solely as a numeral (수사)."
 
-`의존명사` I found to be more common than the spaced `의존 명사`. It's confusing that GO has a page titled `의존명사` but writes `의존 명사` in the body. `줄어든 말` better describes the Korean words marked as `분석 불능`.
+> NIKL Part Of Speech
+
+I found the part of speech term 의존명사 to be more common than the spaced version 의존 명사. It's noteworthy that NIKL has a page titled 의존명사 but uses 의존 명사 in the body text, which can be confusing. Additionally, 줄어든 말 (shortened words) more accurately describes the Korean words marked as 분석 불능.
 
 ```
     '감': '감탄사',
@@ -63,7 +63,7 @@ GO part of speech will be used as 'reference' since GO lists same Korean words w
 
 > TOPIK Part Of Speech
 
-With the exception of `줄어든 말`, I found that TOPIK uses spaces for 'or' rather than being consistent with the use of forward slashes. I've opted for forward slashes for easier string splits, and fore future database purposes.
+I found that TOPIK generally uses spaces to separate alternative parts of speech, with the exception of 줄어든 말. However, for consistency and to facilitate easier string splitting and future database operations, I've opted to use forward slashes instead of spaces.
 
 ```
     '감탄사': '감탄사',
@@ -103,70 +103,54 @@ With the exception of `줄어든 말`, I found that TOPIK uses spaces for 'or' r
     '조사': '조사',
 ```
 
-### **`Splitting GO 풀이 (explanation) to either hanja and hint columns based on language identification`**
+### **`Explanation/Hanja splitting strategy`**
 
-GO `풀이` (explanation) is a combination of Korean, Hanja, English and Number explainations. Below are the found types:
+1. Handle explnation values containing hanja
+- 1A. If the value contains a period (.), split it into two parts:
+    - Move the hanja portion into the hanja column.
+    - Keep the remaining portion as the new explanation value.
 
-> **Type 1: `<ampersand><ko><en>`**
+    `Example: 間. 서울과 부산 ~`
 
-*Example*: `&일ramen`\
-Decision: Move from the `hanja` column to the `hints` column. 
+2. Check for English in explanation values without hanja
+- If the explanation contains English, check if it also includes missed hanja values:
+    - Split the hanja portion into the hanja column.
+    - Move the English portion into the explanation column.
 
-| Hanja      | Hint |
-| ----------- | ----------- |
-|       | `&일ramen`       |
-|       |        |
+    `Example: golf場`
 
-> **Type 2: `<en><han>` or `<han><en>`**
+3. Handle pure hanja values without periods
+- If the value contains no English and no period, assume it is pure hanja:
+    -Set it to the hanja column.
+    -Leave the explanation column empty.
 
-*Examples*: `golf場`, `市內bus`\
-Decision: The `en` porition doesn't provide any value. Replace the `en` portion with a `-`.
+4. Default case for all other values
+- For all other values:
+    - Keep the original value in the explanation column.
+    -Leave the hanja column empty.
 
-| Hanja      | Hint |
-| ----------- | ----------- |
-| `-場`      |        |
-| `市內-`   |         |
-|       |        |
+### **`Combining NIKL and TOPIK explanation`**
 
-> **Type 3: `<han><period><ko>`**
+After reorganizing the data by splitting hanja into its own category and mapping entries by word and part of speech, I realized that the matching explanations are largely identical and can be merged. This simplification is beneficial for streamlining the information.
 
-*Example*: `間. 서울과 부산`, \
-Decision: Split at `. `. Move the `num` portion to the `hints` column.
+Additionally, I noticed that NIKL provides more effective hints for Korean vocabulary by consistently using tildes (~) to indicate where words should be placed in example sentences. Adopting this consistent use of tildes in the hint column could be advantageous for Korean learners who are still developing their understanding of Korean grammar and sentence structure patterns. This approach helps learners better determine the meaning of Korean vocabulary words.
 
-| Hanja      | Hint |
-| ----------- | ----------- |
-| `間`      | `서울과 부산`       |
-|       |        |
-
-> **Type 4: `<han><period><num>`**
-
-Example: `等. 1~`
-Decision: Split at `. `. Move the `num` portion to the `hints` column.
-
-| Hanja      | Hint |
-| ----------- | ----------- |
-| `等`      | `1~`       |
-|       |        |
-
-> **Issue - false detection**
-
-The following due to false language detection, must be changed manually during the process.
-
-| Correction            | Issue                                 |
-|-----------------------|---------------------------------------|
-| '金medal' -> '金-'      | Detected as 'en' rather than 'han/en' |
-|                       |                                       |
+| NIKL explanation    | TOPIK explanation   | TOPIK explanation   |
+|-------|---------|---------|
+| ~ 차다  | 단지 ~만으로 | ~ 차다; 단지 ~만으로 |
+| 색깔이 ~ | 를 조성하다  | 색깔이 ~; 를 조성하다 |
+| 바위가 ~ | 이 심하다   | 바위가 ~; 이 심하다 |
 
 ### **`Determining Combined headers`**
 
-> **Original GO headers**
+> **Original NIKL headers**
 
-| 순위 (ranking) | 단어 (word) | 품사 (part of speech) | 풀이 (explanation) | 등급 (level) |
+| 순위 (rank) | 단어 (word) | 품사 (part of speech) | 풀이 (definition or explanation) | 등급 (grade or level) |
 |--------------|-----------|---------------------|------------------|------------|
 |              |           |                     |                  |            |
 
-`순위` is in terms of usage. `등급` are as follows:
-* `A` (beginner)
+`등급` are as follows:
+* `A` (beginner or elementary)
 * `B` (intermediate)
 * `C` (advanced)
 
@@ -177,83 +161,27 @@ The following due to false language detection, must be changed manually during t
 |--------------|-----------|---------------------|------------------|
 |              |           |                     |                  |
 
-TOPIK has two examination levels: TOPIK I covers the basic level. TOPIK II combines the intermediate and advanced levels. Under `수준`, they would be marked as follows.
-* TOPIK I - `초급` (beginner)
-* TOPIK II - `중급` (intermediate), but more accurately 'from intermediate on'.
+TOPIK has two examination levels: TOPIK I covers the basic level, while TOPIK II combines the intermediate and advanced levels. Under 수준, they would be marked as follows:
+
+* TOPIK I - A (beginner)
+* TOPIK II - B (intermediate), but more accurately 'from intermediate on'.
+
+There is no 'C' to correspond to advanced vocabulary, as the 'B' category encompasses both intermediate and advanced levels. This means that while TOPIK II includes advanced proficiency, it is not distinguished by a separate 'C' classification.
 
 > **Combined headers**
 
-| frequency | korean | pos | hanja | hint | go_level | topik_level |
-|-----------|--------|-----|-------|------|----------|-------------|
-|           |        |     |       |      |          |             |
+| rank | word | part_of_speech | hanja | explanation | level |
+|-----------|--------|-----|-------|------|----------|
+|           |        |     |       |      |          |
 
 
-### **`Handling Combined hint conversions`**
-
-GO provides better hints in Korean than TOPIK due to their consistent use of tildes (~), indicating where the Korean vocabulary word should be placed in the hints, seen below. Having consistent use of tildes where appropriate under the `hint` column may be benefitial to Korean learners not yet confident in Korean grammar and sentence structure patterns in determining the meaning of a Korean vocabulary word.
-
-| GO hint    | TOPIK hint   |
-|-------|---------|
-| ~ 차다  | 단지 ~만으로 |
-| 색깔이 ~ | 를 조성하다  |
-| 바위가 ~ | 이 심하다   |
-|       |         |
-
-> **Sifting system strategy in identifying Combined hints to modify with tildes**
-
-Sifting systems supplies various sieves with openings varying in microns. The upper sieve will prevent particles too large from coming through, and an optional lower sieve will let anything too fine will pass through to the bottom portion. The middle sieve catches the ideal size and anything between the middle and the upper, as well as the middle and the lower sieve will be acceptable.
-
-Tackling a large dataset requires a similar method. It starts with isolating, confirming, then hiding away data types we don't want to target, taking note of issues, until we can clearly see the data types we want to modify. We can then start isolating, confirming, then hiding away the datatypes we want to modify, taking note of issues. We continue the process until we're sure everything we want to modify is accounted for.
-
-**Examples of distracting untargeted data types**
-
-Distracting untargeted data types will have hints that do not require a tilde to indicate where the Korean vocabulary word should be placed as there is not grammatic relation between the Korean word and hint.
-
-1. **Empty hint  values**
-
-| korean            | hint                                 |
-|-----------------------|---------------------------------------|
-| 가득히      |                         |
-|  |                         |
 
 
-2. **Hint values with tildes (correct format)**
+## **`Notable explanations`**
 
-| korean            | hint                                 |
-|-----------------------|---------------------------------------|
-| 가방  | ~을 메다 |
-|  |                         |
+During my review of the NIKL and TOPIK vocabulary lists, I noticed several explanation terms that are categorized by topic. These terms may be particularly useful for Korean learners as they provide a structured way to understand and organize vocabulary. Here are some examples:
 
-3. **Hint values with apostrophes (')**
-
-| korean            | hint                                 |
-|-----------------------|---------------------------------------|
-| 걸리다01  | '걸다'의 피동사 |
-|  |                         |
-
-4. **Hint values with ampersands (&)**
-
-| korean            | hint                                 |
-|-----------------------|---------------------------------------|
-| 발레  | &프ballet |
-|  |                         |
-
-5. **Hint values in English**
-
-| korean            | hint                                 |
-|-----------------------|---------------------------------------|
-| 배드민턴  | badminton |
-|  |                         |
-
-5. **Hint values in Korean with numbers**
-
-| korean            | hint                                 |
-|-----------------------|---------------------------------------|
-| 분08  | 10시 20~ |
-|  |                         |
-
-
-5. **Topic based hints (examples)**
+**Topic based explanations**
 
 * 병원 (hospital)
 * 방법 (method)
@@ -282,144 +210,11 @@ Distracting untargeted data types will have hints that do not require a tilde to
 * 식물 (plant)
 * 꽃 (flower)
 
-
-6. **Select part of speech**
-
-* 감탄사 (exclamation)
-* 관형사 (determiner)
-* 줄어든 말 (contraction)
-* 의존명사 (dependent noun)
-* 대명사 (pronoun)
-* 부사 (adverb)
-
-
-7. **Hints that are not in Korean**
-
-8. **-다 ending in both the Korean and hint columns**
-
-Finding the -다 ending in both the Korean and columns usually indicates one of the following:
-
-| korean            | hint                                 |                                  |
-|-----------------------|---------------------------------------|---------------------------------------|
-| 갖다  | 가지다 | contraction  |
-| 꼼꼼하다  | 꼼꼼하게 살펴보다 | example sentence  |
-| 바치다  | 드리다 | synonyms  |
-|   |  |   |
-
-Exceptions to look out for where a tilde is needed in the hint:
-
-| korean            | hint                                 |                                  |
-|-----------------------|-----------------------|-----------------------|
-| 사이다  | 를 마시다 | 를 마시다 -> ~를 마시다 -> 사이다를 마시다 |
-| 베란다  | 로 나가다 | 로 나가다 -> ~로 나가다 -> 베란다로 나가다 |
-|   |  |   |
-
-Since these values follow the targeted data pattern, we can take a look at the next examples to allow us to pass them through our initial filters.
-
-> Examples of targeted data ([ ] = target position)
-
-**Type 1: ~[ ] ㅇㅇㅇ[다]**
-
-The following Korean characters at the beginning of hints followed by a space hint at where to join Korean vocabulary:
-
-* 가
-* 에
-* 이
-* 을
-* 를
-* 로
-* 으로
-* 에서
-* 에게
-* 과
-* 께
-* 도
-* 만
-* 와
-* 의
-* 처럼
-* 이나
-* 까지
-
-Examples: 
-
-| korean            | hint                                 | combined                                 |
-|-----------------------|---------------------------------------|---------------------------------------|
-| 가격03  | ~이 비싸다 | 가격이 비싸다  |
-| 가방01  | ~을 메다 | 가방을 메다  |
-|   |  |   |
-
-**Type 2: ~ㅇㅇㅇ[]**
-
-The following Korean characters at the end of hints hint at where to join Korean vocabulary after a space:
-
-* 에
-* 이
-* 가
-* 를
-* 을
-* 에서
-* 으로
-* 께
-* 와
-* 처럼
-* 과
-* 에게
-* 하고
-* 쯤
-* 의
-
-Examples: 
-
-| korean            | hint                                 | combined                                 |
-|-----------------------|---------------------------------------|---------------------------------------|
-| 가르치다01  | 한국어를 ~ | 한국어를 가르치다  |
-| 가지다  | 돈을 ~ | 돈을 가지다  |
-|   |  |   |
-
-Exceptions:
-
-| frequency | korean | pos | hanja | hint   | go_level | topik_level |
-|-----------|--------|-----|-------|--------|----------|-------------|
-| 5992      | 팬01    | 명사  |       | 애호가    | B        |             |
-| 214       | 동안01   | 명사  |       | 시간의 길이 | A        |             |
-| 3117      | 새01    | 명사  |       | 사이     | C        |             |
-| 315       | 애02    | 명사  |       | 아이     | B        |             |
-|           | 요새01   | 명사  |       | 요 사이   |          | 중급          |
-|           |        |     |       |        |          |             |
-
-> Examples of leftover data
-
-The best way to find useful leftover data is to inspect the 170 or so lines of data left. Only the following types are useful and we can let the rest pass through.
-
-**Leftever Type 1: '의 ㅇㅇ'**
-
-| frequency | korean | pos | hanja | hint | go_level | topik_level |
-|-----------|--------|-----|-------|------|----------|-------------|
-|           | 아동02   | 명사  |       | 의 성장 |          | 중급          |
-|           | 아랫사람   | 명사  |       | 의 도리 |          | 중급          |
-|           | 우연02   | 명사  |       | 의 일치 |          | 중급          |
-|           | 재생01   | 명사  |       | 의 기회 |          | 중급          |
-|           |        |     |       |      |          |             |
-
-**Leftover Type 2: Unclassifiable**
-
-Due to their uniqueness, the following 5 of the 170 remaining lines of data are not distinct enough to draw
-
-| frequency | korean | pos | hanja | hint | go_level | topik_level |
-|-----------|--------|-----|-------|------|----------|-------------|
-|           | 적용     | 명사  |       | 받다   |          | 중급          |
-|           | 분위기    | 명사  |       | 어색한  |          | 초급          |
-|           | 차례01   | 명사  |       | 지키다  |          | 초급          |
-|           | 차례01   | 동사  |       | 오래   |          | 초급          |
-| 4881      | 달다07   | 형용사 |       | 맛    | A        |             |
-|           |        |     |       |      |          |             |
-
 ### **`Issues`** 
 
 > Issue: Errors found
 
-Through the filtering the data, the following errors were found and were manually corrected prior to combining the GO and TOPIK vocabulary lists.
+During the data filtering process, several errors were identified and manually corrected before combining the NIKL and TOPIK vocabulary lists.
 
 | Correction            | Issue                                 |
 |-----------------------|---------------------------------------|
@@ -429,18 +224,19 @@ Through the filtering the data, the following errors were found and were manuall
 | '대적할 만함' -> '대적할 만한'  | Should be '-한'                        |
 |                       |                                       |
 
-### **`Final steps`**
 
-Value shifting and deleting values should be done with lines of data with frequency value and hanja as reference as we want to protect these lines of data. I would recommend delete lines of data if one cannot confirm 1:1 match are we're not confirming meaning. The except are GO Korean words with a `고유 명사` part of speech, see below.
+### **`Changelog - 2025.03.01`** 
 
-> **`Value shifting`**
+**Major Changes**
 
-Look for lines with a freqency value, look above and below to see if Korean value is exact, and pos is similar. Shift missing values to the line with frequency value.
-
-> **`Deleting duplicats`**
-
-Lines with freqency values should be protected. Like value shifting, one must look above and below to see if Korean value is exact, and pos is similar.
-
-> **`고유 명사`**
-
-A type of GO Korean word that does not not possess a frequency number are of the '고유 명사' (proper noun) part of speech type. The TOPIK equivalent has a number added to the end of the Korean word and is listed as `명사` (noun). The TOPIK equivalent is safe to delete despite not being 1:1 Korean value match since we're dealing with proper nouns.
+1. Complete Codebase Restructure
+    - Started from scratch with a new architecture
+    - Introduced DataManager class for data cleaning
+    - Created MergeManager class for data merging operations
+2. Enhanced Data Processing
+    - Implemented updated regex patterns for improved data parsing
+    - Focused on splitting hanja from explanation column into a dedicated hanja column
+    - Developed a simpler method for merging matching NIKL and TOPIK entry values
+3. Code Optimization
+    - Streamlined data cleaning and merging processes
+    - Improved efficiency in handling large datasets
