@@ -31,6 +31,9 @@ class MergeManager:
             topik.get("rank") or nikl.get("rank") or ""
         )
         new_entry["level"] = nikl.get("level") or topik.get("level") or ""
+        # Explanded levels
+        new_entry["nikl_level"] = nikl.get("level") or ""
+        new_entry["topik_level"] = topik.get("level") or ""
         new_entry["word"] = nikl.get("word") or topik.get("word") or ""
         new_entry["part_of_speech"] = (
             nikl.get("part_of_speech") or topik.get("part_of_speech") or ""
@@ -51,6 +54,16 @@ class MergeManager:
         )
 
         return new_entry
+
+    def _expand_entries(self, entries):
+        expanded_entries = []
+        for entry in entries:
+            expanded_entry = entry.copy()
+            is_topik = bool(re.search(r"[abcABC]", entry["level"]))
+            expanded_entry["topik_level"] = entry["level"] if is_topik else ""
+            expanded_entry["nikl_level"] = "" if is_topik else entry["level"]
+            expanded_entries.append(expanded_entry)
+        return expanded_entries
 
     def merge_entries(self):
         results = []
@@ -86,7 +99,8 @@ class MergeManager:
                     merged_entry = self._merge_entry_values(entries)
                     results += [merged_entry]
                 else:
-                    results += entries
+                    expanded_entries = self._expand_entries(entries)
+                    results += expanded_entries
         self.entries = results
 
     def create_tsv(self, file_path):
@@ -99,19 +113,20 @@ class MergeManager:
             ),
         )
         with open(file_path, "w") as f:
-
             headers = [
                 "rank",
                 "word",
                 "part_of_speech",
                 "hanja",
                 "explanation",
-                "level",
+                "nikl_level",
+                "topik_level",
             ]
             tsv_writer = csv.DictWriter(f, fieldnames=headers, delimiter="\t")
             tsv_writer.writeheader()
 
             for entry in data:
+                del entry["level"]
                 tsv_writer.writerow(entry)
 
         print(f"Results written to {file_path}...")
