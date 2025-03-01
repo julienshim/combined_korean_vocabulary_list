@@ -170,9 +170,9 @@ There is no 'C' to correspond to advanced vocabulary, as the 'B' category encomp
 
 > **Combined headers**
 
-| rank | word | part_of_speech | hanja | explanation | level |
-|-----------|--------|-----|-------|------|----------|
-|           |        |     |       |      |          |
+| rank | word | part_of_speech | hanja | explanation | nikl_level | topik_level |
+|-----------|--------|-----|-------|------|----------|----------|
+|           |        |     |       |      |          |          |
 
 
 
