@@ -61,6 +61,7 @@ class MergeManager:
 
         # Return Long if Short in Longest
         explanation_filtered = self._compare_and_return_longest(explanation_filtered)
+        explanation_filtered.sort()
 
         new_entry["explanation"] = (
             f'{"; " if len(explanation_filtered) > 1 else ""}'.join(
