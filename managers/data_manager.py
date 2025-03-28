@@ -6,24 +6,24 @@ import utils.language_utils as language_utils
 
 
 class DataManager:
-    def __init__(self):
-        self.entries = []
+    def __init__(self) -> None:
+        self.entries: list[dict[str, str]] = []
 
-    def load_from_tsv_dir(self, directory):
+    def load_from_tsv_dir(self, directory: str) -> None:
         for filename in os.listdir(directory):
             if filename.endswith(".tsv"):
-                file_path = os.path.join(directory, filename)
+                file_path: str = os.path.join(directory, filename)
                 self.load_from_tsv_file(file_path)
 
-    def load_from_tsv_file(self, file_path):
+    def load_from_tsv_file(self, file_path: str) -> None:
         with open(file_path, "r", newline="") as tsv_file:
             reader = csv.DictReader(tsv_file, delimiter="\t")
             for row in reader:
-                processed_res = self._process_entry(row)
+                processed_res: list[dict[str, str]] = self._process_entry(row)
                 self.entries += processed_res
 
-    def _process_entry(self, entry):
-        results = []
+    def _process_entry(self, entry: dict[str, str]) -> list[dict[str, str]]:
+        results: list[dict[str, str]] = []
         """
         NIKL
         '순위' means 'Rank'
@@ -40,12 +40,12 @@ class DataManager:
         D. '길잡이말' means 'Guide Phrase' or 'Example Usage'
         """
 
-        pos_res = self._process_part_of_speech(entry.get("품사"))
-        explanation_res = self._process_explanation(
-            entry.get("풀이") or entry.get("길잡이말") or ""
+        pos_res: list[str] = self._process_part_of_speech(entry.get("품사") or "")
+        explanation_res: dict[str, str] = self._process_explanation(
+            explanation=entry.get("풀이") or entry.get("길잡이말") or ""
         )
         for pos in pos_res:
-            tmp = {}
+            tmp: dict[str, str] = {}
             tmp["rank"] = entry.get("순위") or ""
             tmp["level"] = entry.get("등급") or entry.get("수준") or ""
             tmp["word"] = entry.get("단어") or entry.get("어휘") or ""
@@ -56,15 +56,8 @@ class DataManager:
 
         return results
 
-    def _process_part_of_speech(self, part_of_speech):
-        """
-        Investigate the following later:
-        # - 의존명사 (Dependent Noun)
-        # - 접사 (Affix)
-        # - "줄어든 말" (Abbreviated Word)
-        """
-
-        part_of_speech_reference = {
+    def _process_part_of_speech(self, part_of_speech: str) -> list[str]:
+        part_of_speech_reference: dict[str, str] = {
             # go part of speech
             "감": "감탄사",
             "고": "고유 명사",
@@ -116,16 +109,23 @@ class DataManager:
             "조사": "조사",
         }
 
+        """
+        Investigate the following later:
+        # - 의존명사 (Dependent Noun)
+        # - 접사 (Affix)
+        # - "줄어든 말" (Abbreviated Word)
+        """
+
         return part_of_speech_reference[part_of_speech].split("/")
 
-    def _process_explanation(self, explanation):
+    def _process_explanation(self, explanation: str) -> dict[str, str]:
 
-        result = {"explanation": explanation, "hanja": ""}
+        result: dict[str, str] = {"explanation": explanation, "hanja": ""}
 
         if not explanation:
             return result
 
-        error_reference = {
+        error_reference: dict[str, str] = {
             "를 g다": "를 하다",
             "에서 연습핟": "에서 연습하다",
             "경찰 수가": "경찰 수사",
@@ -145,6 +145,8 @@ class DataManager:
         )["hanja"]:
             # Case 1 - Has Period
             if re.search(r"\.", explanation):
+                h: str
+                e: str
                 h, e = explanation.split(".")
                 result["hanja"] = h.strip()
                 result["explanation"] = e.strip()
@@ -153,7 +155,7 @@ class DataManager:
                 if language_utils.detect_languages(
                     text=explanation, languages_to_detect=["english"]
                 )["english"]:
-                    split_result = language_utils.split_text(
+                    split_result: dict[str, str] = language_utils.split_text(
                         text=explanation, split_types=["english", "hanja"]
                     )
                     result["hanja"] = split_result["hanja"].strip()
@@ -165,5 +167,5 @@ class DataManager:
 
         return result
 
-    def get_entries(self):
+    def get_entries(self) -> list[dict[str, str]]:
         return self.entries
