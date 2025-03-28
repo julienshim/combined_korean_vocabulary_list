@@ -54,7 +54,7 @@ if __name__ == "__main__":
     main(
         results_tsv=args.results_tsv,
         nikl_tsv=args.nikl_tsv,
-        topik_dir=args.args.topik_dir,
+        topik_dir=args.topik_dir,
     )
 
 print("--- %s seconds ---" % (time.time() - start_time))
